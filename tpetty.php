@@ -24,7 +24,7 @@ $sql = array(
 	",
 	//Run each iteration
 	'each' => "
-		SELECT * FROM ? WHERE id='?';
+		SELECT * FROM :{itval} WHERE id=':{itval}';
 	",
 );
 $params = array(
@@ -50,16 +50,24 @@ $row_count = sqlsrv_num_rows( $stmt );
 
 //Iterate over each item and execute 'each' sql on it
 for ($i = 0; $i < $row_count; $i++) {
+	//Get iterator value
 	if( sqlsrv_fetch( $stmt ) === false) {
 		echo("Unable to fetch row.\n");
 		printErrors();
 	}
 	$val = sqlsrv_get_field( $stmt, 0);
-	$stmt2 = sqlsrv_query( $conn, $sql['each'], array($val));
+	$params['each']['itval'] = $val;
+	//Replace all named placeholders with array values
+	$lsql = $sql['each'];
+	foreach ($params['each'] as $pkey=>$pval) {
+		$lsql = preg_replace("/:\{" . $pkey . "\}/g", $pval, $lsql);
+	}
+	$stmt2 = sqlsrv_query( $conn, $sql['each']);
 	if ($stmt2 === FALSE) {
 		echo("Error running 'each' sql.\n");
 		printErrors();
 	}
+	unset($params['each']['itval']);
 }
 echo "done";
 

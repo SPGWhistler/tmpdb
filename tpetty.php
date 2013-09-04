@@ -19,7 +19,9 @@ $params = array(
 	'tbl_Practice0001'
 );
 $sql = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME like 'tbl_Practice0%';";
-$stmt = sqlsrv_query( $conn, $sql, $params);
+$stmt = sqlsrv_query( $conn, $sql, $params, array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+$row_count = sqlsrv_num_rows( $stmt );
+echo $row_count;
 if( $stmt === false ) {
      die( print_r( sqlsrv_errors(), true));
 }

@@ -24,13 +24,13 @@ $sql = array(
 	",
 	//Run each iteration
 	'each' => "
-		SELECT * FROM :{itval} WHERE id=':{itval}';
+		SELECT * FROM :{itval} WHERE id=':{cow}' AND id=':{itval}';
 	",
 );
 $params = array(
 	'iterator' => array(),
 	'init' => array(),
-	'each' => array(),
+	'each' => array('cow' => 1),
 );
 
 //Run init sql
@@ -62,6 +62,7 @@ for ($i = 0; $i < $row_count; $i++) {
 	foreach ($params['each'] as $pkey=>$pval) {
 		$lsql = preg_replace("/:\{" . $pkey . "\}/g", $pval, $lsql);
 	}
+	echo("Tried to execute:\n" . $lsql . "\n");
 	$stmt2 = sqlsrv_query( $conn, $lsql);
 	if ($stmt2 === FALSE) {
 		echo("Error running 'each' sql.\n");

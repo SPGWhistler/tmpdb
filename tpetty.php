@@ -13,10 +13,10 @@ $sql = array(
 	'init' => "
 		DROP TABLE UsersAttributes
 		DROP TABLE UsersOfPractice
-		DELETE FROM Users WHERE LastActivityDate <= '01/01/2000'
-		DELETE FROM Memberships WHERE LastActivityDate <= '01/01/2000'
-		-- CREATE TABLE UsersOfPractice (uopID INT IDENTITY(1,1) PRIMARY KEY, PracticeID INT, UserID UNIQUEIDENTIFIER)
-		-- CREATE TABLE UsersAttributes(UserID UNIQUEIDENTIFIER, UserAttributeName NVARCHAR(255), UserAttributeValue NVARCHAR(500))
+		-- DELETE FROM Users WHERE LastActivityDate <= '01/01/2000'
+		-- DELETE FROM Memberships WHERE LastActivityDate <= '01/01/2000'
+		CREATE TABLE UsersOfPractice (uopID INT IDENTITY(1,1) PRIMARY KEY, PracticeID INT, UserID UNIQUEIDENTIFIER)
+		CREATE TABLE UsersAttributes(UserID UNIQUEIDENTIFIER, UserAttributeName NVARCHAR(255), UserAttributeValue NVARCHAR(500))
 	",
 	//Get data to iterate over
 	'iterator' => "

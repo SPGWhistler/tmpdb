@@ -62,9 +62,10 @@ for ($i = 0; $i < $row_count; $i++) {
 	foreach ($params['each'] as $pkey=>$pval) {
 		$lsql = preg_replace("/:\{" . $pkey . "\}/g", $pval, $lsql);
 	}
-	$stmt2 = sqlsrv_query( $conn, $sql['each']);
+	$stmt2 = sqlsrv_query( $conn, $lsql);
 	if ($stmt2 === FALSE) {
 		echo("Error running 'each' sql.\n");
+		echo("Tried to execute:\n" . $lsql . "\n");
 		printErrors();
 	}
 	unset($params['each']['itval']);

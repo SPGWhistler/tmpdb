@@ -24,6 +24,7 @@ $row_count = sqlsrv_num_rows( $stmt );
 if ($row_count === FALSE) die('crap');
 
 for (var i in $row_count) {
+	echo "Row " . $i;
 	if( sqlsrv_fetch( $stmt ) === false) {
 		die( print_r( sqlsrv_errors(), true));
 	}

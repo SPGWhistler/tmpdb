@@ -24,7 +24,7 @@ $sql = array(
 	",
 	//Run each iteration
 	'each' => "
-		SELECT * FROM :itval WHERE 1;
+		SELECT * FROM ? WHERE id='?';
 	",
 );
 $params = array(
@@ -55,7 +55,7 @@ for ($i = 0; $i < $row_count; $i++) {
 		printErrors();
 	}
 	$val = sqlsrv_get_field( $stmt, 0);
-	$stmt2 = sqlsrv_query( $conn, $sql['each'], array('itval'=>$val));
+	$stmt2 = sqlsrv_query( $conn, $sql['each'], array($val));
 	if ($stmt2 === FALSE) {
 		echo("Error running 'each' sql.\n");
 		printErrors();

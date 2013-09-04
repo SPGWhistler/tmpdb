@@ -18,7 +18,7 @@ DROP VIEW tbl_Practice0001
 DROP TABLE UsersAttributes
 DROP TABLE UsersOfPractice
 DELETE FROM Users WHERE LastActivityDate <= '01/01/2000'
-DELETE FROM Memberships WHERE LastActivityDate <= '01/01/2000'"
+DELETE FROM Memberships WHERE LastActivityDate <= '01/01/2000'";
 $stmt = sqlsrv_query( $conn, $sql);
 if( $stmt === false ) {
      die( print_r( sqlsrv_errors(), true));

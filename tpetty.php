@@ -18,10 +18,21 @@ $sql = "
 $params = array(
 	'tbl_Practice0001'
 );
+$sql = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME like 'tbl_Practice0%';";
 $stmt = sqlsrv_query( $conn, $sql, $params);
 if( $stmt === false ) {
      die( print_r( sqlsrv_errors(), true));
 }
+
+if( sqlsrv_fetch( $stmt ) === false) {
+	die( print_r( sqlsrv_errors(), true));
+}
+
+$name = sqlsrv_get_field( $stmt, 0);
+echo "$name: ";
+
+$comment = sqlsrv_get_field( $stmt, 1);
+echo $comment;
 echo "done";
 
 // Initialize parameters and prepare the statement.

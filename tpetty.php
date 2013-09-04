@@ -30,7 +30,7 @@ if ($row_count === FALSE) {
 	die('crap');
 }
 
-foreach ($row_count as $i) {
+for ($i = 0; $i < $row_count; $i++) {
 	echo "Row " . $i;
 	if( sqlsrv_fetch( $stmt ) === false) {
 		die( print_r( sqlsrv_errors(), true));

@@ -59,12 +59,9 @@ for ($i = 0; $i < $row_count; $i++) {
 	$params['each']['itval'] = $val;
 	//Replace all named placeholders with array values
 	$lsql = $sql['each'];
-	echo "original sql: " . $lsql . "\n";
 	foreach ($params['each'] as $pkey=>$pval) {
 		$lsql = preg_replace("/:\{" . $pkey . "\}/", $pval, $lsql);
-		echo "Modified sql: " . $lsql . "\n";
 	}
-	echo("Final sql: " . $lsql . "\n");
 	$stmt2 = sqlsrv_query( $conn, $lsql);
 	if ($stmt2 === FALSE) {
 		echo("Error running 'each' sql.\n");

@@ -61,7 +61,7 @@ for ($i = 0; $i < $row_count; $i++) {
 	$lsql = $sql['each'];
 	echo "original sql: " . $lsql . "\n";
 	foreach ($params['each'] as $pkey=>$pval) {
-		$lsql = preg_replace("/:\{" . $pkey . "\}/g", $pval, $lsql);
+		$lsql = preg_replace("/:\{" . $pkey . "\}/", $pval, $lsql);
 		echo "Modified sql: " . $lsql . "\n";
 	}
 	echo("Final sql: " . $lsql . "\n");

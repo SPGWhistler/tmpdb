@@ -4,14 +4,12 @@ $connectionInfo = array( "Database"=>"roireseachDEV", "UID"=>"roiadmin", "PWD"=>
 $conn = sqlsrv_connect( $serverName, $connectionInfo);
 
 if( $conn ) {
-     echo "Connection established.<br />";
 }else{
      echo "Connection could not be established.<br />";
      die( print_r( sqlsrv_errors(), true));
 }
 
 $sql = "
-	DROP VIEW ?
 	DROP TABLE UsersAttributes
 	DROP TABLE UsersOfPractice
 	DELETE FROM Users WHERE LastActivityDate <= '01/01/2000'

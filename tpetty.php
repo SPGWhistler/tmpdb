@@ -24,6 +24,7 @@ $sql = array(
 	",
 	//Run each iteration
 	'each' => "
+		SELECT * FROM :itval WHERE 1;
 	",
 );
 $params = array(
@@ -49,13 +50,16 @@ $row_count = sqlsrv_num_rows( $stmt );
 
 //Iterate over each item and execute 'each' sql on it
 for ($i = 0; $i < $row_count; $i++) {
-	echo "Row " . $i . "\n";
 	if( sqlsrv_fetch( $stmt ) === false) {
 		echo("Unable to fetch row.\n");
 		printErrors();
 	}
-	$name = sqlsrv_get_field( $stmt, 0);
-	echo "$name\n";
+	$val = sqlsrv_get_field( $stmt, 0);
+	$stmt2 = sqlsrv_query( $conn, $sql['each'], array('itval'=>$val));
+	if ($stmt2 === FALSE) {
+		echo("Error running 'each' sql.\n");
+		printErrors();
+	}
 }
 echo "done";
 

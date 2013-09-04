@@ -2,10 +2,9 @@
 $serverName = "ec2-107-21-191-61.compute-1.amazonaws.com"; //serverName\instanceName
 $connectionInfo = array( "Database"=>"roireseachDEV", "UID"=>"roiadmin", "PWD"=>"Fantas1a");
 $conn = sqlsrv_connect( $serverName, $connectionInfo);
-if( $conn ) {
-}else{
-     echo "Connection could not be established.<br />";
-     die( print_r( sqlsrv_errors(), true));
+if( !$conn ) {
+     echo "Connection could not be established.\n";
+     printErrors();
 }
 
 //MSSQL Queries Here
@@ -36,13 +35,15 @@ $params = array(
 //Run init sql
 $stmt = sqlsrv_query( $conn, $sql['init'], $params['init']);
 if ($stmt === FALSE) {
-	die ('Error running init sql.');
+	echo("Error running init sql.\n");
+	printErrors();
 }
 
 //Get data to iterate over
 $stmt = sqlsrv_query( $conn, $sql['iterator'], $params['iterator'], array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
 if ($stmt === FALSE) {
-	die ('Error running iterator sql.');
+	echo("Error running iterator sql.\n");
+	printErrors();
 }
 $row_count = sqlsrv_num_rows( $stmt );
 
@@ -50,10 +51,22 @@ $row_count = sqlsrv_num_rows( $stmt );
 for ($i = 0; $i < $row_count; $i++) {
 	echo "Row " . $i . "\n";
 	if( sqlsrv_fetch( $stmt ) === false) {
-		die( print_r( sqlsrv_errors(), true));
+		echo("Unable to fetch row.\n");
+		printErrors();
 	}
 	$name = sqlsrv_get_field( $stmt, 0);
 	echo "$name\n";
 }
 echo "done";
+
+function printErrors(){
+	if( ($errors = sqlsrv_errors() ) != null) {
+		foreach( $errors as $error ) {
+			echo "SQLSTATE: ".$error[ 'SQLSTATE']."\n";
+			echo "code: ".$error[ 'code']."\n";
+			echo "message: ".$error[ 'message']."\n";
+		}
+	}
+	die();
+}
 ?>
